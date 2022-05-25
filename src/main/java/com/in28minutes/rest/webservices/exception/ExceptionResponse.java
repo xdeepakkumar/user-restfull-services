@@ -1,4 +1,4 @@
-package com.in28minutes.rest.webservices.user.exception;
+package com.in28minutes.rest.webservices.exception;
 
 
 import lombok.*;

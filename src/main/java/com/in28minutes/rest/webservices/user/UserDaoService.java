@@ -1,11 +1,12 @@
 package com.in28minutes.rest.webservices.user;
 
+import com.in28minutes.rest.webservices.posts.Post;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 @Component
 public class UserDaoService {
@@ -15,10 +16,16 @@ public class UserDaoService {
     private static int userCount = 4;
 
     static {
-        users.add(new User(1, "Adam", new Date().toString()));
-        users.add(new User(2, "Eve", new Date().toString()));
-        users.add(new User(3, "Jack", new Date().toString()));
-        users.add(new User(4, "Tom", new Date().toString()));
+
+        List<Post> posts = new ArrayList<>();
+        Post post = new Post();
+        post.setDescription("Description");
+        posts.add(post);
+
+        users.add(new User(1, "Adam", new Date().toString(), posts));
+        users.add(new User(2, "Eve", new Date().toString(), posts));
+        users.add(new User(3, "Jack", new Date().toString(), posts));
+        users.add(new User(4, "Tom", new Date().toString(), posts));
     }
 
     public List<User> findAll(){

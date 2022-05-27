@@ -28,6 +28,6 @@ public class User {
 
     @Size(min = 2, message = "name should have at least 2 character.")
     private String name;
-    @Past
+
     private String birthDate;
 }

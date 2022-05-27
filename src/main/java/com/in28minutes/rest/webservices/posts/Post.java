@@ -1,5 +1,6 @@
 package com.in28minutes.rest.webservices.posts;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.in28minutes.rest.webservices.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,5 +19,6 @@ public class Post {
     private Integer id;
     private String description;
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
     private User user;
 }

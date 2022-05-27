@@ -1,5 +1,6 @@
 package com.in28minutes.rest.webservices.user;
 
+import com.in28minutes.rest.webservices.posts.Post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
@@ -51,4 +52,11 @@ public class UserJPAResource {
         userRepository.deleteById(id);
     }
 
+    @GetMapping("/jpa/users/{id}/posts")
+    public List<Post> retrieveAllPosts(@PathVariable Integer id){
+        Optional<User> user = userRepository.findById(id);
+        if(!user.isPresent())
+            throw new UserNotFoundException("User not found");
+        return user.get().getPosts();
+    }
 }

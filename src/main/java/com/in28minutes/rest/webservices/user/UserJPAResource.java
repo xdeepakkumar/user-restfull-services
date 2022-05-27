@@ -1,6 +1,7 @@
 package com.in28minutes.rest.webservices.user;
 
 import com.in28minutes.rest.webservices.posts.Post;
+import com.in28minutes.rest.webservices.posts.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
@@ -21,6 +22,9 @@ public class UserJPAResource {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PostRepository postRepository;
 
     @GetMapping("/jpa/users")
     public List<User> retrieveAllUser(){
@@ -59,4 +63,22 @@ public class UserJPAResource {
             throw new UserNotFoundException("User not found");
         return user.get().getPosts();
     }
+
+    @PostMapping("/jpa/users/{id}/posts")
+    public ResponseEntity<Object> createPosts(@PathVariable Integer id, @RequestBody Post post){
+
+        Optional<User> userOptional = userRepository.findById(id);
+
+        if(!userOptional.isPresent())
+            throw new UserNotFoundException("User not found");
+
+        User user = userOptional.get();
+        post.setUser(user);
+        postRepository.save(post);
+
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}").buildAndExpand(post.getId()).toUri();
+        return ResponseEntity.created(location).build();
+    }
+
 }
